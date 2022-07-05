@@ -1,0 +1,1 @@
+select NAME from CITY where COUNTRYCODE IN (select CODE from COUNTRY WHERE CONTINENT = 'Africa')
