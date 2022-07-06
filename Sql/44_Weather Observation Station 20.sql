@@ -1,0 +1,14 @@
+DECLARE @rows INT = (SELECT COUNT(*) from STATION);
+IF(@rows % 2 = 0)
+BEGIN
+    DECLARE @num1 INT;
+    DECLARE @num2 INT;
+    SET @num1 = (SELECT LAT_N from STATION order by LAT_N desc OFFSET @rows/2-1 ROWS FETCH NEXT 1 ROWS ONLY)
+    SET @num2 = (SELECT LAT_N from STATION order by LAT_N desc OFFSET @rows/2 ROWS FETCH NEXT 1 ROWS ONLY)
+    
+    SELECT CAST((@num1+@num2)/2.0 as DECIMAL(10,4));
+END
+ELSE
+BEGIN
+    SELECT CAST(ROUND(LAT_N,4) as DECIMAL(10,4)) from STATION order by LAT_N desc OFFSET @rows/2 ROWS FETCH NEXT 1 ROWS ONLY;
+END;
